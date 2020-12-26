@@ -46,10 +46,15 @@ az ad sp create-for-rbac -n "http://${PREFIX}sp" --skip-assignment
 # ********************************************************************************
 # Take the SP Creation output from above command and fill in Variables accordingly
 # ********************************************************************************
-APPID="<SERVICE_PRINCIPAL_APPID_GOES_HERE>"
-PASSWORD="<SERVICEPRINCIPAL_PASSWORD_GOES_HERE>"
+APPID="de92c317-cf59-48f6-9a48-2136bd0d2dff"
+PASSWORD="sz5~rEQCfaB6-Hj8A09.pFQidb2KTyu-9b"
 VNETID=$(az network vnet show -g $RG --name $VNET_NAME --query id -o tsv)
 # Assign SP Permission to VNET
 az role assignment create --assignee $APPID --scope $VNETID --role Contributor
 # View Role Assignment
 az role assignment list --assignee $APPID --all -o table
+
+# Create Public IP for use with WAF (Azure Application Gateway)
+az network public-ip create -g $RG -n $AGPUBLICIP_NAME -l $LOC --sku "Standard"
+
+
